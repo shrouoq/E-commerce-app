@@ -10,7 +10,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
             className={`px-3 py-1 rounded-lg ${
               currentPage === 1
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-gray-200 hover:bg-gray-300"
+                : "bg-[#35AFA0] hover:bg-[#35AFA9] text-white"
             }`}
           >
             Prev
@@ -22,7 +22,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
               onClick={() => setCurrentPage(index + 1)}
               className={`px-3 py-1 rounded-full transition-colors duration-200 ${
                 currentPage === index + 1
-                  ? "bg-yellow-500 text-white shadow-md"
+                  ? "bg-[#35AFA0] hover:bg-[#35AFA9] text-white"
                   : "bg-gray-200 hover:bg-gray-300"
               }`}
             >
@@ -38,7 +38,7 @@ const Pagination = ({ setCurrentPage, currentPage, totalPages }) => {
             className={`px-3 py-1 rounded-lg ${
               currentPage === totalPages
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-gray-200 hover:bg-gray-300"
+                : "bg-[#35AFA0] hover:bg-[#35AFA9] text-white"
             }`}
           >
             Next

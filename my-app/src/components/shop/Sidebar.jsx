@@ -1,22 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import sidebarBanner from "../../assets/sidebar-banner.gif.png";
+import { useDispatch, useSelector } from "react-redux";
+import { GetData } from "../../slice/DataSlice";
 
-const Sidebar = ({ sidebarRef, isSidebarOpen }) => {
-  const [priceRange, setPriceRange] = useState(55);
-  const [availability, setAvailability] = useState("all");
-  const productOutcomes = [
-    "Beverages",
-    "Biscuits & Snacks",
-    "Breads & Bakery",
-    "Breakfast & Dairy",
-    "Frozen Foods",
-    "Fruits & Vegetables",
-    "Grocery & Snacks",
-    "Household Meals",
-    "Meats & Seafood",
-  ];
+const Sidebar = ({ sidebarRef, isSidebarOpen, onFilter }) => {
+  const [selectedCategories, setSelectedCategories] = useState(["All"]);
+  const [priceRange, setPriceRange] = useState(100);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.DataSlice);
 
-  const brands = ["Frito Lay", "Quaker", "Cola", "Valerba", "Oreo"];
+  useEffect(() => {
+    dispatch(GetData());
+  }, [dispatch]);
+
+  // ======= Handle Category Selection =========
+  const handleCategoryChange = (category) => {
+    if (category === "All") {
+      setSelectedCategories(["All"]);
+    } else {
+      const updatedCategories = selectedCategories.includes(category)
+        ? selectedCategories.filter((c) => c !== category)
+        : [...selectedCategories.filter((c) => c !== "All"), category];
+
+      setSelectedCategories(
+        updatedCategories.length ? updatedCategories : ["All"]
+      );
+    }
+  };
+
+  // ======= Handle Reset =========
+  const handleReset = () => {
+    setSelectedCategories(["All"]);
+    setPriceRange(100);
+  };
+
+  // ======= Call parent filter function =========
+  useEffect(() => {
+    onFilter({ categories: selectedCategories, price: priceRange });
+  }, [selectedCategories, priceRange, onFilter]);
 
   return (
     <>
@@ -35,11 +56,26 @@ const Sidebar = ({ sidebarRef, isSidebarOpen }) => {
               PRODUCT CATEGORIES
             </h2>
             <ul className="space-y-2">
-              {productOutcomes.map((category, index) => (
+              {/* Add All category */}
+              <li className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="category-all"
+                  checked={selectedCategories.includes("All")}
+                  onChange={() => handleCategoryChange("All")}
+                  className="mr-2"
+                />
+                <label htmlFor="category-all" className="text-gray-700">
+                  All
+                </label>
+              </li>
+              {categories.map((category, index) => (
                 <li key={index} className="flex items-center">
                   <input
                     type="checkbox"
                     id={`category-${index}`}
+                    checked={selectedCategories.includes(category)}
+                    onChange={() => handleCategoryChange(category)}
                     className="mr-2"
                   />
                   <label
@@ -48,28 +84,6 @@ const Sidebar = ({ sidebarRef, isSidebarOpen }) => {
                   >
                     {category}
                   </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {/* ===============Filter by brand=============== */}
-          <div className="bg-white p-4 mb-6">
-            <h2 className="font-semibold text-gray-800 mb-4">BRANDS</h2>
-            <ul className="space-y-2">
-              {brands.map((brand, index) => (
-                <li key={index} className="flex items-center justify-between">
-                  <div>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      id={`brand-${index}`}
-                      className="mr-2"
-                    />
-                    <label htmlFor={`brand-${index}`} className="text-gray-700">
-                      {brand}
-                    </label>
-                  </div>
-                  <span className="text-gray-700">(10)</span>
                 </li>
               ))}
             </ul>
@@ -89,39 +103,14 @@ const Sidebar = ({ sidebarRef, isSidebarOpen }) => {
               className="w-full"
             />
           </div>
-          {/* ===========availability=========== */}
-          <div className="bg-white p-4">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              AVAILABILITY
-            </h2>
-            <div className="space-y-2">
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="in-stock"
-                  name="availability"
-                  checked={availability === "in-stock"}
-                  onChange={() => setAvailability("in-stock")}
-                  className="mr-2"
-                />
-                <label htmlFor="in-stock" className="text-gray-700">
-                  In stock
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="out-of-stock"
-                  name="availability"
-                  checked={availability === "out-of-stock"}
-                  onChange={() => setAvailability("out-of-stock")}
-                  className="mr-2"
-                />
-                <label htmlFor="out-of-stock" className="text-gray-700">
-                  Out of stock
-                </label>
-              </div>
-            </div>
+          {/* ========Reset Button=========== */}
+          <div className="p-4">
+            <button
+              onClick={handleReset}
+              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded"
+            >
+              Reset Filters
+            </button>
           </div>
           {/* ==========Sidebar Banner=========== */}
           <div className="shadow mt-6 p-4">

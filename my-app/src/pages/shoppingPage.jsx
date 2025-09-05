@@ -5,6 +5,10 @@ import Header from "../components/shop/Header";
 
 const ShoppingPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    categories: ["All"],
+    price: 100,
+  });
   const sidebarRef = useRef(null);
 
   // Close sidebar when clicking outside
@@ -46,17 +50,24 @@ const ShoppingPage = () => {
         setIsSidebarOpen={setIsSidebarOpen}
         isSidebarOpen={isSidebarOpen}
       />
-      {/*{/* Main Content */}
+
+      {/* Main Content */}
       <div className="container mx-auto py-8">
         <div className="relative flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
-          <Sidebar sidebarRef={sidebarRef} isSidebarOpen={isSidebarOpen} />
+          <Sidebar
+            sidebarRef={sidebarRef}
+            isSidebarOpen={isSidebarOpen}
+            onFilter={setFilters}
+          />
+
           {/* Overlay for mobile when sidebar is open */}
           {isSidebarOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"></div>
           )}
+
           {/* Product Grid */}
-          <Products setIsSidebarOpen={setIsSidebarOpen} />
+          <Products setIsSidebarOpen={setIsSidebarOpen} filters={filters} />
         </div>
       </div>
     </div>

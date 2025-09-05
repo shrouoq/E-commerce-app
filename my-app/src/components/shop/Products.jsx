@@ -1,22 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import containerImg from "../../assets/Container.png";
-import { FaRegStar, FaStar } from "react-icons/fa";
 import Pagination from "./Pagination";
-import { products } from "./data";
+import { useDispatch, useSelector } from "react-redux";
+import { GetData } from "../../slice/DataSlice";
+import ProductCard from "../ItemCard/ProductCard";
 
-const Products = ({ setIsSidebarOpen }) => {
-  // make pagination
+const Products = ({ setIsSidebarOpen, filters }) => {
+  const dispatch = useDispatch();
+  const { data, loading, errors } = useSelector((state) => state.DataSlice);
+
+  useEffect(() => {
+    dispatch(GetData()); // هنا بتجيب البيانات من Supabase
+  }, [dispatch]);
+
+  // Apply Filters
+  const filteredData = data.filter((product) => {
+    const inCategory =
+      filters.categories.includes("All") ||
+      filters.categories.includes(product.category);
+
+    const inPrice = Number(product.price) <= filters.price;
+
+    return inCategory && inPrice;
+  });
+
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = filteredData.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages = Math.ceil(filteredData.length / productsPerPage);
+
   return (
     <>
       <div className="w-full lg:w-3/4" onClick={() => setIsSidebarOpen(false)}>
@@ -28,98 +48,22 @@ const Products = ({ setIsSidebarOpen }) => {
             alt="containerImg"
           />
         </div>
+
         {/* ======= Products Number=========== */}
         <div className="px-3 py-4 mb-4 bg-gray-200 text-gray-500 text-xs font-semibold flex items-center justify-between w-100 rounded-md">
-          <p>{products.length} products</p>
+          <p>{filteredData.length} products</p>
           <p>
             Sort by : <span className="text-black">Alphabetically, A-Z</span>
           </p>
         </div>
+
         {/* ===========Product Grid=========== */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {currentProducts?.map((product) => (
-            <div
-              key={product.id}
-              className="group bg-white rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full"
-            >
-              {/* =======Product Image=========== */}
-              <div className="h-48 flex items-center justify-center">
-                <img
-                  className="w-100 group-hover:scale-105 transition-all duration-300"
-                  src={product.image}
-                  alt="product-image"
-                />
-              </div>
-
-              {/* =======Product Details=========== */}
-              <div className="flex flex-col flex-grow p-4">
-                {/* =======Product Name=========== */}
-                <h3 className="font-medium text-gray-800 mb-2">
-                  {product.name}
-                </h3>
-
-                {/* =======Stock=========== */}
-                <p className="text-sm text-green-600 uppercase mb-2">
-                  {product.code}
-                </p>
-
-                {/* =======Reviews=========== */}
-                <div className="flex items-center gap-1 mb-2">
-                  {[...Array(5)].map((_, index) =>
-                    index < product.star ? (
-                      <FaStar
-                        key={index}
-                        className="text-yellow-500"
-                        size={14}
-                      />
-                    ) : (
-                      <FaRegStar
-                        key={index}
-                        className="text-yellow-500"
-                        size={14}
-                      />
-                    )
-                  )}
-                </div>
-
-                {/* =======Price=========== */}
-                <div className="flex items-center justify-between mb-4">
-                  {product.originalPrice ? (
-                    <div className="flex items-center">
-                      <span className="text-red-600 font-semibold">
-                        ${product.price.toFixed(2)}
-                      </span>
-                      <span className="ml-2 text-sm text-gray-500 line-through">
-                        ${product.originalPrice.toFixed(2)}
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="font-semibold">
-                      ${product.price.toFixed(2)}
-                    </span>
-                  )}
-                </div>
-
-                {/* =======Add to Cart=========== */}
-                <div className="mt-auto w-full flex items-center justify-center">
-                  <div className="w-[70%] flex items-center justify-center">
-                    <button className="w-1/3 border border-gray-300 rounded-tl-[30px] rounded-bl-[30px] bg-gray-200">
-                      -
-                    </button>
-                    <p className="w-2/3 text-center border border-gray-300 p-0">
-                      1
-                    </p>
-                    <button className="w-1/3 border border-gray-300 rounded-tr-[30px] rounded-br-[30px] bg-yellow-300">
-                      +
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-              
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
+
         {/* ==========Pagination=========== */}
         <Pagination
           setCurrentPage={setCurrentPage}

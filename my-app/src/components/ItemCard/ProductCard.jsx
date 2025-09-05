@@ -1,87 +1,81 @@
-import { FaRegStar , FaStar } from "react-icons/fa"
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../slice/cart";
+import { Link } from "react-router-dom";
 
+const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
 
-export default function ProductCard({product}) {
+  const price = Number(product.price) || 0;
+  const discountValue = product.discount
+    ? Number(String(product.discount).replace("%", "")) / 100
+    : 0;
+  const finalPrice = price - price * discountValue;
+
+  // check if product is already in cart
+  const inCart = cartItems.some((item) => item.id === product.id);
+
   return (
-    <div
-        key={product.id}
-        className="group bg-white rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full"
-    >
-        {/* =======Product Image=========== */}
-        <div className="h-48 p-4 flex items-center justify-center">
-        <img
-            className="w-100 h-full group-hover:scale-105 transition-all duration-300"
+    <div className="group relative bg-white rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full">
+      {/* ===== Discount Badge ===== */}
+      {product.discount && (
+        <span className="absolute z-10 top-2 left-2 bg-gray-100 py-1 px-2 text-green-600 text-xs font-medium">
+          {product.discount} OFF
+        </span>
+      )}
+
+      {/* ===== Product Image ===== */}
+      <Link to={`/productDetails/${product.id}`}>
+        <div className="h-48 flex items-center justify-center">
+          <img
+            className="w-full h-full object-contain group-hover:scale-105 transition-all duration-300"
             src={product.image}
-            alt="product-image"
-        />
+            alt={product.title}
+          />
         </div>
 
-        {/* =======Product Details=========== */}
+        {/* ===== Product Details ===== */}
         <div className="flex flex-col flex-grow p-4">
-        {/* =======Product Name=========== */}
-            <h3 className="font-medium text-gray-800 mb-2">
-                {product.title}
-            </h3>
+          <h3 className="font-medium text-gray-800 mb-2">{product.title}</h3>
+          <p className="text-sm text-gray-600 mb-2">{product.brand}</p>
 
-            {/* =======Stock=========== */}
-            <p className="text-sm text-green-600 uppercase mb-2">
-                instock
-            </p>
-
-            {/* =======Reviews=========== */}
-            <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, index) =>
-                index < product.star ? (
-                    <FaStar
-                    key={index}
-                    className="text-yellow-500"
-                    size={14}
-                    />
-                ) : (
-                    <FaRegStar
-                    key={index}
-                    className="text-yellow-500"
-                    size={14}
-                    />
-                )
-                )}
-            </div>
-
-            {/* =======Price=========== */}
-            <div className="flex items-center justify-between mb-4">
-                {product.originalPrice ? (
-                <div className="flex items-center">
-                    <span className="text-red-600 font-semibold">
-                    ${product.price}
-                    </span>
-                    <span className="ml-2 text-sm text-gray-500 line-through">
-                    ${product.price}
-                    </span>
-                </div>
-                ) : (
-                <span className="font-semibold">
-                    ${product.price}
+          {/* ===== Price ===== */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-red-600 font-semibold">
+                ${finalPrice.toFixed(2)}
+              </span>
+              {product.discount && (
+                <span className="text-sm text-gray-500 line-through">
+                  ${price.toFixed(2)}
                 </span>
-                )}
+              )}
             </div>
+          </div>
 
-            {/* =======Add to Cart=========== */}
-            <div className="mt-auto w-full flex items-center justify-center">
-                <div className="w-[70%] flex items-center justify-center">
-                <button className="w-1/3 border border-gray-300 rounded-tl-[30px] rounded-bl-[30px] bg-gray-200">
-                    -
-                </button>
-                <p className="w-2/3 text-center border border-gray-300 p-0">
-                    1
-                </p>
-                <button className="w-1/3 border border-gray-300 rounded-tr-[30px] rounded-br-[30px] bg-yellow-300">
-                    +
-                </button>
-                </div>
-            </div>
-
+          {/* ===== Add to Cart / In Cart ===== */}
+          <div className="mt-auto w-full flex items-center justify-center">
+            {inCart ? (
+              <button
+                disabled
+                className="mt-auto w-full bg-gray-400 text-white py-1 rounded-md cursor-not-allowed"
+              >
+                In Cart
+              </button>
+            ) : (
+              <button
+                onClick={() => dispatch(addToCart(product))}
+                className="mt-auto w-full bg-[#35AFA0] hover:bg-[#2e8b7d] text-white py-1 rounded-md transition"
+              >
+                Add to Cart
+              </button>
+            )}
+          </div>
         </div>
-                  
+      </Link>
     </div>
-  )
-}
+  );
+};
+
+export default ProductCard;

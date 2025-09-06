@@ -20,7 +20,7 @@ export default function ProductDetails() {
   const [imgSrc, setImgSrc] = useState("");
   const param = useParams();
   const navigate = useNavigate();
-  // 🟢 Check if item already in cart
+  //  Check if item already in cart
   const isInCart = cartItems.some((item) => item.id === selectedItem?.id);
 
   console.log(state.data);
@@ -39,7 +39,7 @@ export default function ProductDetails() {
     }
   }, [param.productId, state.data]);
 
-  // 🟢 Add to cart
+  //  Add to cart
   const handleAddToCart = () => {
     if (selectedItem) {
       dispatch(addToCart({ ...selectedItem, quantity: count }));
@@ -53,7 +53,7 @@ export default function ProductDetails() {
   }, [selectedItem]);
 
   return (
-    <div className="fixed w-full bg-transparent z-40 h-[100vh] top-0 bottom-0 right-0 flex justify-center items-center">
+    <div className="w-full h-screen z-50 fixed bg-transparent top-0 bottom-0 right-0 flex justify-center items-center">
       <div className="overLay bg-black/70 absolute w-full h-full"></div>
 
       <div className="bg-white w-[80%] h-auto max-h-[500px] overflow-y-auto z-50 p-5">

@@ -1,0 +1,72 @@
+.mySwiper {
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+
+/* Background for parallax effect */
+.parallax-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+}
+
+/* Slide content styling (from Swiper parallax demo) */
+.swiper-slide .title {
+  font-size: 43px;
+  font-weight: 700;
+  color: #202435;
+}
+
+.swiper-slide .subtitle {
+  font-size: 16px;
+  color: #202435;
+  font-weight: 500;
+}
+
+.swiper-slide .text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e9e9e9;
+  max-width: 560px;
+}
+
+.swiper-slide .range{
+  color : #202435;
+  font-weight: 500;
+}
+
+.swiper-slide .range span {
+  color : #D51243;
+  font-weight: 600;
+  font-size : 36px;
+}
+
+.swiper-slide {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  z-index: 20; 
+}
+

@@ -4,7 +4,7 @@ import {
   decreaseQuantity,
   addToCart,
   clearCart,
-  calculateTotals, // 👈 مهم
+  calculateTotals,
 } from "../slice/cart";
 
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -15,7 +15,6 @@ const Cart = () => {
   const { cartItems, totalAmount } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  // 🟢 حساب الإجمالي عند تحميل الصفحة أو عند تغيير الـ cartItems
   useEffect(() => {
     dispatch(calculateTotals());
   }, [cartItems, dispatch]);
@@ -46,10 +45,10 @@ const Cart = () => {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between bg-white border rounded-lg shadow-sm p-4"
+                  className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-white border rounded-lg shadow-sm p-4 gap-4"
                 >
-                  {/* Product Details */}
-                  <div className="flex items-center gap-4">
+                  {/* Left: Product Details */}
+                  <div className="flex items-center gap-4 flex-1">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -78,7 +77,8 @@ const Cart = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  {/* Middle: Quantity Controls */}
+                  <div className="flex items-center gap-2 justify-center lg:flex-1">
                     <button
                       onClick={() => dispatch(decreaseQuantity(item.id))}
                       className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 transition"
@@ -94,32 +94,36 @@ const Cart = () => {
                     </button>
                   </div>
 
-                  <button
-                    onClick={() => dispatch(removeFromCart(item.id))}
-                    className="text-red-500 hover:text-red-700 transition"
-                  >
-                    <FaRegTrashAlt size={20} />
-                  </button>
+                  {/* Right: Delete Button */}
+                  <div className="flex justify-end lg:justify-end lg:flex-1">
+                    <button
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                      className="text-red-500 hover:text-red-700 transition"
+                    >
+                      <FaRegTrashAlt size={20} />
+                    </button>
+                  </div>
                 </div>
               );
             })}
           </div>
 
           {/* Total Price */}
-          <div className="mt-8 flex justify-between items-center border-t pt-4">
-            <h3 className="text-xl font-bold text-gray-800">
-              Total: ${totalAmount.toFixed(2)}
-            </h3>
-            <div className="flex items-center gap-4">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-800 border-t-2 border-gray-200 pt-6 mt-6">
+            Total Price : ${totalAmount.toFixed(2)}
+          </h3>
+          {/* Checkout Button & Clear Cart Button */}
+          <div className="mt-8 flex justify-end items-center">
+            <div className="flex items-center flex-wrap gap-4">
               <Link
                 to="/checkout"
-                className="bg-[#35AFA0] hover:bg-[#35AFA8] text-white py-2 px-6 rounded-lg shadow transition"
+                className="bg-[#35AFA0] hover:bg-[#35AFA8] text-white py-2 px-3 rounded-lg shadow transition"
               >
                 Checkout
               </Link>
               <button
                 onClick={() => dispatch(clearCart())}
-                className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-lg shadow transition"
+                className="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg shadow transition"
               >
                 Clear Cart
               </button>

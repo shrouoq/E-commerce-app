@@ -43,7 +43,7 @@ const Sidebar = ({ sidebarRef, isSidebarOpen, onFilter }) => {
     <>
       <div
         ref={sidebarRef}
-        className={`bg-white fixed z-50 lg:static top-0 left-0 h-full min-h-screen w-4/5 max-w-sm lg:w-1/4 
+        className={`bg-white fixed z-50 lg:z-40 lg:static top-0 left-0 h-full min-h-screen w-4/5 max-w-sm lg:w-1/4 
               transform transition-transform duration-300 ease-in-out 
               ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
               lg:translate-x-0 

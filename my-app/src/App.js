@@ -19,6 +19,8 @@ import PrivateRouter from './components/Auth/privateRouter'
 import {GetData} from './slice/DataSlice.js';
 import ProductsCategory from './pages/ProductsCategory.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
+import Checkout from './pages/Checkout.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 
 function App() {
@@ -49,6 +51,10 @@ useEffect(() => {
           <Route path='cart' element={<PrivateRouter> <Cart /> </PrivateRouter>}/> 
           <Route path='products/:category' element={<ProductsCategory />} />
           <Route path='productDetails/:productId' element={<ProductDetails />} />
+          <Route path='checkout' element={<Checkout />} />
+          <Route path='/*' element={<NotFound />} />
+
+
         </Routes>
 
         <Footer />

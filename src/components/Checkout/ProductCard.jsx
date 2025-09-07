@@ -1,26 +1,7 @@
 import React from 'react'
 
 export default function ProductCard({orders}) {
-        /* 
-    [
-        {
-            "id":41,
-            "title":"Frozen Pizza",
-            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE_E-OThdf_a4GXg_D58u4rEDv9_a4Sj8Cbw&s",
-            "price":"55",
-            "description":"Ready-to-bake pepperoni pizza",
-            "brand":"Dr. Oetker",
-            "model":"Ristorante Pizza",
-            "color":"Mixed",
-            "category":"Frozen Foods",
-            "discount":"0%",
-            "image2":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf-_HNWu79r8AMi8aUpDUyYbjP2IP_o8svw&s",
-            "image3":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd2I6VYI_7Qsw-lAapPjIMSheYxyLxf-7QqA&s",
-            "image4":"https://eu-central-1-droetker.graphassets.com/AVtdz8Pl3QxerK0kYX32fz/cmdr6jevrciyh07w0y05lxvgi",
-            "quantity":2
-        }
-    ]
-    */ 
+ 
     return (
         <>
             {orders.map((product, index) => (

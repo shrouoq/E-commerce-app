@@ -174,11 +174,11 @@ export default function Form() {
               placeholder="City (optional)"
             />
           </div>
-          <ErrorMessage
-            name="postalCode"
-            component="p"
-            className="text-red-700"
-          />
+            <ErrorMessage
+              name="postalCode"
+              component="p"
+              className="text-red-700"
+            />
 
           <div className="checkbox flex justify-start items-center">
             <input

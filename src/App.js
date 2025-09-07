@@ -1,6 +1,6 @@
 import './css/input.css'
 import {useEffect} from 'react'; 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import NavBar from "./components/NavBar/NavBar.jsx";
 import { Route, Routes } from 'react-router-dom';
@@ -26,8 +26,13 @@ import NotFound from './pages/NotFound.jsx';
 function App() {
   const Dispatch = useDispatch();
 
+  let {data} = useSelector(state => state.DataSlice)
+
+
 useEffect(() => {
   Dispatch(GetData());
+  console.log(data);
+  
 },[Dispatch])
 
   return (

@@ -123,7 +123,7 @@ const Cart = () => {
               </Link>
               <button
                 onClick={() => dispatch(clearCart())}
-                className="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg shadow transition"
+                className="bg-red-500 hover:bg-red-700 text-white py-2 px-3 rounded-lg shadow transition"
               >
                 Clear Cart
               </button>

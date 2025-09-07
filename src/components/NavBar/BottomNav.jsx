@@ -1,7 +1,7 @@
 import Logo from "../../assets/logo-pic.jpeg";
 
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FaHandSparkles } from "react-icons/fa";
@@ -22,11 +22,8 @@ export default function BottomNav() {
   const { data } = useSelector((state) => state.DataSlice);
   const { cartItems, totalAmount } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(calculateTotals());
-  }, [cartItems, dispatch]);
   const navigate = useNavigate();
+
 
   const [Fixed, setFixed] = useState(false);
   const [openNav, setOpenNav] = useState(false);
@@ -34,21 +31,25 @@ export default function BottomNav() {
   const [query, setQuery] = useState("");
   const [searchedData, setSearchedData] = useState([]);
 
-  let handelCategoriesMenu = () => {
-    setOpenCategories(!openCategories);
-  };
+  let handelCategoriesMenu = useCallback(() => {
+    setOpenCategories(prev => !prev);
+  },[])
 
-  let handelCloseNav = () => {
+  let handelCloseNav = useCallback(() => {
     setOpenNav(false);
-  };
+  },[])
 
-  let handelOpenNav = () => {
+  let handelOpenNav = useCallback(()=> {
     setOpenNav(true);
-  };
+  },[])
 
-  let handelChange = (e) => {
-    setQuery(e.target.value);
-  };
+  let handelChange = useCallback((e) =>{
+      setQuery(e.target.value);
+  },[])
+
+  useEffect(() => {
+    dispatch(calculateTotals());
+  }, [cartItems, dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -280,7 +281,7 @@ export default function BottomNav() {
           </div>
 
           {/* ========sideBar Nav links======== */}
-          {<SideNav openNav={openNav} handelClose={handelCloseNav} />}
+          <SideNav openNav={openNav} handelClose={handelCloseNav} />
         </div>
       </div>
     </>

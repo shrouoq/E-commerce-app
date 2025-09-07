@@ -1,11 +1,11 @@
-import ItemCard from '../ItemCard/ItemCard';
-import coconut from '../../assets/coconut.png';
-import Lemonade from '../../assets/lemonade.png';
-import cofee from '../../assets/iceCoffe.png';
-import mango from '../../assets/mango.png';
-import straebary from '../../assets/strawbary.png'
+import { useSelector } from 'react-redux';
+import ProductCard from './../ItemCard/ProductCard';
 
 export default function Offers() {
+
+    const {data} = useSelector(state => state.DataSlice);
+
+
   return (
     <div className="offers">
 
@@ -28,14 +28,17 @@ export default function Offers() {
 
         </div>
 
-        <div className="cards flex justify-center flex-wrap max-xl:gap-3">
+        <div className="cards flex justify-center  flex-wrap max-xl:gap-3">
 
-            <ItemCard pic={Lemonade} title='simply lemonade with raspberry juice' offer='35%'/>
-            <ItemCard pic={coconut} title='sol-ti coconut charchol superAde' offer='20%'/>
-            <ItemCard pic={cofee} title='SToK Un-Sweet Black Cold Brew Iced Coffee'/>
-            <ItemCard pic={mango} title='Tropicana Pineapple Mango Drink' offer='10%'/>
-            <ItemCard pic={straebary} title='Zevia Kidz Strawberry Lemonade Zero Calorie…'/>
-
+            {
+                data.map((product , index) => {
+                    if(index < 5) {
+                        return <ProductCard wid='w-[235px]' key={index} product={product} />
+                    }
+                    return null
+                })
+            }
+            
         </div>
 
     </div>

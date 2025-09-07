@@ -5,11 +5,11 @@
 }
 
 .productsSlider .swiper {
-  height: 430px;
+  height: 300px;
 }
 
 .productsSlider .swiper-slide {
-  height: 430px;
+  height: 300px;
   width: 235px;
 }
 
@@ -31,14 +31,14 @@
 .productsSlider .swiper-button-prev {
   left: 0px;
   top: 50%;
-  transform: translateY(-75%);
+  transform: translateY(-50%);
 }
 
 .productsSlider .swiper-button-next,
 .RelatedProductsSlider .swiper-button-next {
   right: 0px;
   top: 50%;
-  transform: translateY(-75%);
+  transform: translateY(-50%);
 }
 
 .LittleProductsSlider .swiper-button-prev,

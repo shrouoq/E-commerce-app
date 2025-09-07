@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slice/cart";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product , wid='' , tex=''}) => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
   const inCart = cartItems.some((item) => item.id === product.id);
 
   return (
-    <div className="group relative bg-white rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full">
+    <div className={`${wid} group relative bg-white rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full`}>
       {/* ===== Discount Badge ===== */}
       {product.discount && (
         <span className="absolute z-10 top-2 left-2 bg-gray-100 py-1 px-2 text-green-600 text-xs font-medium">
@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
 
           {/* ===== Price ===== */}
           <div className="mb-4">
-            <div className="flex items-center gap-2">
+            <div className={`flex ${tex} items-center w-full gap-2`}>
               <span className="text-red-600 font-semibold">
                 ${finalPrice.toFixed(2)}
               </span>

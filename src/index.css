@@ -43,3 +43,15 @@ ul{
 .fixed{
     background-color: #fff;
 }
+
+::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #35AFA0;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+

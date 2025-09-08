@@ -23,8 +23,6 @@ export default function ProductDetails() {
   //  Check if item already in cart
   const isInCart = cartItems.some((item) => item.id === selectedItem?.id);
 
-  console.log(state.data);
-
   const handelGoBack = () => {
     navigate("/shopping");
   };

@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromCart,
   decreaseQuantity,
-  addToCart,
   clearCart,
   calculateTotals,
+  increaseQuantity,
 } from "../slice/cart";
 
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -87,7 +87,7 @@ const Cart = () => {
                     </button>
                     <span className="px-3">{item.quantity}</span>
                     <button
-                      onClick={() => dispatch(addToCart(item))}
+                      onClick={() => dispatch(increaseQuantity(item.id))}
                       className="w-8 h-8 flex items-center justify-center rounded-full bg-[#35AFA0] hover:bg-[#35AFA8] text-white transition"
                     >
                       +
